@@ -1,4 +1,15 @@
 .myBtn {
   flex: 1;
   background-color: #fff;
+  margin-left: 2px;
+}
+
+.myBtn:hover {
+  background-color: aquamarine;
+}
+
+.myBtn:active {
+  background-color: aquamarine;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }

@@ -1,18 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import TaskList from "./components/UI/TaskList/TaskList";
 import MenuItem from "./components/UI/MenuItem/MenuItem";
-import TasksService from "./components/API/TaskService";
+import TasksService from "./API/TaskService";
 import Loader from "./components/UI/Loader/Loader";
 import "./styles/App.css";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [isTaskLoading, setIsTaskLoading] = useState(false);
+  const [filter, setFilter] = useState("all");
+
+  const visibleTasks = useMemo(
+    () => filterTasks(tasks, filter),
+    [tasks, filter]
+  );
+
+  function filterTasks(tasks, filter) {
+    return tasks.filter((task) => {
+      if (filter === "all") {
+        return true;
+      } else if (filter === "active") {
+        return !task.completed;
+      } else if (filter === "completed") {
+        return task.completed;
+      }
+    });
+  }
 
   async function fetchTasks() {
     setIsTaskLoading(true);
     setTimeout(async () => {
-      const tasks = await TasksService.getTasks();
+      const tasks = await TasksService.getTasks(
+        "https://jsonplaceholder.typicode.com/todos"
+      );
       setTasks(tasks);
       setIsTaskLoading(false);
     }, 1000);
@@ -41,7 +61,7 @@ function App() {
     <div className="App">
       <h1>ToDo List</h1>
       <div>
-        <MenuItem create={createTask}></MenuItem>
+        <MenuItem create={createTask} setFilter={setFilter}></MenuItem>
       </div>
       <div>
         {isTaskLoading ? (
@@ -56,7 +76,7 @@ function App() {
           </div>
         ) : (
           <TaskList
-            tasks={tasks}
+            tasks={visibleTasks}
             remove={removeTask}
             changeState={changeTaskState}
           ></TaskList>
