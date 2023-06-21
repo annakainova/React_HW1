@@ -1,0 +1,29 @@
+.ListItem {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+
+  padding: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.ButtonDone {
+  width: 80px;
+  background-color: aquamarine;
+}
+
+.ButtonDelete {
+  width: 80px;
+  background-color: coral;
+}
+
+.BtnGroup {
+  margin: 2px;
+  margin-left: auto;
+  margin-right: 0;
+  display: flex;
+}

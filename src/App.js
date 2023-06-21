@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import TaskList from "./components/UI/TaskList/TaskList";
+import MenuItem from "./components/UI/MenuItem/MenuItem";
+import "./styles/App.css";
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+
+  const createTask = (newTask) => {
+    setTasks([...tasks, newTask]);
+  };
+
+  const removeTask = (task) => {
+    setTasks(tasks.filter((t) => t.id !== task.id));
+  };
+
+  const changeTaskState = (task) => {
+    const updTask = tasks.map((t) =>
+      task.id === t.id ? { ...t, completed: !t.completed } : t
+    );
+    setTasks(updTask);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>ToDo List</h1>
+      <div>
+        <MenuItem create={createTask}></MenuItem>
+      </div>
+      <div>
+        <TaskList
+          tasks={tasks}
+          remove={removeTask}
+          changeState={changeTaskState}
+        ></TaskList>
+      </div>
     </div>
   );
 }
