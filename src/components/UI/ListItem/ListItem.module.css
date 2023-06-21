@@ -13,17 +13,19 @@
 
 .ButtonDone {
   width: 80px;
+  height: 40px;
   background-color: aquamarine;
 }
 
 .ButtonDelete {
   width: 80px;
+  height: 40px;
   background-color: coral;
 }
 
 .BtnGroup {
-  margin: 2px;
+  margin: 4px;
   margin-left: auto;
-  margin-right: 0;
   display: flex;
+  align-items: center;
 }
