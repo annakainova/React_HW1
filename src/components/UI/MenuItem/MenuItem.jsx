@@ -1,11 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import MyButton from "../MyButton/MyButton";
 import MyInput from "../MyInput/MyInput";
+import MySelect from "../Select/MySelect";
 import classes from "./MenuItem.module.css";
+import { ThemeContext } from "../../../context";
 
-const MenuItem = ({ create, setFilter }) => {
+const MenuItem = ({
+  create,
+  setFilter,
+  selectedSort,
+  changeSort,
+  defaultValue,
+  options,
+  setTheme,
+}) => {
   const [title, setTitle] = useState("");
   const focus = useRef(null);
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     if (focus.current) {
@@ -28,6 +39,8 @@ const MenuItem = ({ create, setFilter }) => {
     setTitle("");
   };
 
+  const className = "button-" + theme;
+
   return (
     <div className={classes.MenuItem}>
       <div>
@@ -38,12 +51,41 @@ const MenuItem = ({ create, setFilter }) => {
           placeholder="Enter a task"
           ref={focus}
         ></MyInput>
-        <MyButton onClick={addNewTask}>Add task</MyButton>
+        <MyButton className={className} onClick={addNewTask}>
+          Add task
+        </MyButton>
       </div>
-      <div className={classes.BtnGroup}>
-        <MyButton onClick={() => setFilter("all")}>All</MyButton>
-        <MyButton onClick={() => setFilter("active")}>Active</MyButton>
-        <MyButton onClick={() => setFilter("completed")}>Completed</MyButton>
+      <div className={classes.BtnGroup_className}>
+        <MyButton className={className} onClick={() => setFilter("all")}>
+          All
+        </MyButton>
+        <MyButton className={className} onClick={() => setFilter("active")}>
+          Active
+        </MyButton>
+        <MyButton className={className} onClick={() => setFilter("completed")}>
+          Completed
+        </MyButton>
+      </div>
+      <div>
+        <MySelect
+          value={selectedSort}
+          onChange={changeSort}
+          defaultValue={defaultValue}
+          options={options}
+        />
+        <div>
+          <label className={classes.myLabel}>
+            <MyInput
+              className={classes.myLabel}
+              type="checkbox"
+              checked={theme === "dark"}
+              onChange={(e) => {
+                setTheme(e.target.checked ? "dark" : "light");
+              }}
+            ></MyInput>
+            Use dark mode
+          </label>
+        </div>
       </div>
     </div>
   );

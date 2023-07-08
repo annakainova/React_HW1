@@ -1,4 +1,5 @@
-body, h1 {
+body,
+h1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,4 +7,81 @@ body, h1 {
 
 .completed {
   text-decoration: line-through;
+}
+
+.Loader {
+  justify-content: "center";
+  margin-top: "50px";
+}
+
+.button-done-dark {
+  background-color: rgb(47, 139, 24);
+}
+
+.button-done-light {
+  background-color: aquamarine;
+}
+
+.button-done-light:hover {
+  background-color: rgb(160, 229, 206);
+}
+
+.button-done-light:active {
+  background-color: aquamarine;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-done-dark:hover {
+  background-color: rgb(57, 168, 30);
+}
+
+.button-done-dark:active {
+  background-color: rgb(47, 139, 24);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-delete-dark {
+  background-color: rgb(126, 20, 96);
+}
+
+.button-delete-light {
+  background-color: coral;
+}
+
+.button-delete-light:hover {
+  background-color: rgb(216, 155, 133);
+}
+
+.button-delete-light:active {
+  background-color: coral;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-delete-dark:hover {
+  background-color: rgb(182, 29, 139);
+}
+
+.button-delete-dark:active {
+  background-color: rgb(126, 20, 96);
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+.button-dark {
+  background-color: rgb(47, 139, 24);
+}
+
+.button-light {
+  background-color: aquamarine;
+}
+
+.div-dark {
+  background-color: rgb(71, 85, 92);
+}
+
+.div-light {
+  background-color: #fff;
 }

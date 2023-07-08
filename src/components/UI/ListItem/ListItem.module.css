@@ -1,6 +1,5 @@
 .ListItem {
   width: 300px;
-  background-color: #fff;
   border-radius: 10px;
 
   padding: 5px;
@@ -14,13 +13,11 @@
 .ButtonDone {
   width: 80px;
   height: 40px;
-  background-color: aquamarine;
 }
 
 .ButtonDelete {
   width: 80px;
   height: 40px;
-  background-color: coral;
 }
 
 .BtnGroup {
