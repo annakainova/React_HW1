@@ -5,6 +5,10 @@ h1 {
   align-items: center;
 }
 
+.App-dark {
+  background-color: rgb(71, 85, 92);
+}
+
 .completed {
   text-decoration: line-through;
 }

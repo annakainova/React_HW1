@@ -39,10 +39,10 @@ const MenuItem = ({
     setTitle("");
   };
 
-  const className = "button-" + theme;
+  const classNameButton = "button-" + theme;
 
   return (
-    <div className={classes.MenuItem}>
+    <div>
       <div>
         <MyInput
           value={title}
@@ -51,18 +51,24 @@ const MenuItem = ({
           placeholder="Enter a task"
           ref={focus}
         ></MyInput>
-        <MyButton className={className} onClick={addNewTask}>
+        <MyButton className={classNameButton} onClick={addNewTask}>
           Add task
         </MyButton>
       </div>
       <div className={classes.BtnGroup_className}>
-        <MyButton className={className} onClick={() => setFilter("all")}>
+        <MyButton className={classNameButton} onClick={() => setFilter("all")}>
           All
         </MyButton>
-        <MyButton className={className} onClick={() => setFilter("active")}>
+        <MyButton
+          className={classNameButton}
+          onClick={() => setFilter("active")}
+        >
           Active
         </MyButton>
-        <MyButton className={className} onClick={() => setFilter("completed")}>
+        <MyButton
+          className={classNameButton}
+          onClick={() => setFilter("completed")}
+        >
           Completed
         </MyButton>
       </div>

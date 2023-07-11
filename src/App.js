@@ -1,32 +1,20 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useReducer } from "react";
 import TaskList from "./components/UI/TaskList/TaskList";
 import MenuItem from "./components/UI/MenuItem/MenuItem";
 import Loader from "./components/UI/Loader/Loader";
 import "./styles/App.css";
-import TasksService from "./API/TaskService";
 import { ThemeContext } from "./context";
 import { useData } from "./hooks/useData";
+import { tasksReducer } from "./reducer/tasksReducer";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("all");
   const [selectedSort, setSelectedSort] = useState("");
   const [theme, setTheme] = useState("light");
-  const [fetchTasks, isLoading, taskError] = useData(async () => {
-    const data = await TasksService.getTasks(
-      "https://jsonplaceholder.typicode.com/todos"
-    );
-    setTasks(data);
-  });
-
-  const sortTasks = (sort) => {
-    setSelectedSort(sort);
-    if (sort === "title") {
-      setTasks([...tasks].sort((a, b) => a[sort].localeCompare(b[sort])));
-    } else {
-      setTasks([...tasks].sort((a, b) => (a[sort] > b[sort] ? 1 : -1)));
-    }
-  };
+  const [tasksData, isLoading, taskError] = useData(
+    "https://jsonplaceholder.typicode.com/todos"
+  );
+  const [tasks, dispatch] = useReducer(tasksReducer, tasksData);
 
   const visibleTasks = useMemo(
     () => filterTasks(tasks, filter),
@@ -46,10 +34,6 @@ function App() {
   }
 
   useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  useEffect(() => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -62,31 +46,46 @@ function App() {
     } catch (e) {}
   }, [tasks]);
 
-  const createTask = (newTask) => {
-    setTasks([...tasks, newTask]);
-  };
+  function handleAddTask(newTask) {
+    dispatch({
+      type: "added",
+      newTask: newTask,
+    });
+  }
 
-  const removeTask = (task) => {
-    setTasks(tasks.filter((t) => t.id !== task.id));
-  };
+  function handleDeleteTask(task) {
+    dispatch({
+      type: "deleted",
+      task: task,
+    });
+  }
 
-  const changeTaskState = (task) => {
-    const updTask = tasks.map((t) =>
-      task.id === t.id ? { ...t, completed: !t.completed } : t
-    );
-    setTasks(updTask);
-  };
+  function handleChangeTask(task) {
+    dispatch({
+      type: "changed",
+      task: task,
+    });
+  }
 
+  function handleSortTask(sort) {
+    dispatch({
+      type: "sorted",
+      sort: sort,
+      setSelectedSort: setSelectedSort,
+    });
+  }
+
+  const classNameDiv = "div-" + theme;
   return (
     <ThemeContext.Provider value={theme}>
-      <div className="App">
+      <div className={classNameDiv}>
         <h1>ToDo List</h1>
         <div>
           <MenuItem
-            create={createTask}
+            create={handleAddTask}
             setFilter={setFilter}
             value={selectedSort}
-            changeSort={sortTasks}
+            changeSort={handleSortTask}
             defaultValue="Сортировка"
             options={[
               { value: "title", name: "По имени" },
@@ -108,11 +107,11 @@ function App() {
               <Loader></Loader>
             </div>
           ) : (
-            <div>
+            <div className={classNameDiv}>
               <TaskList
                 tasks={visibleTasks}
-                remove={removeTask}
-                changeState={changeTaskState}
+                remove={handleDeleteTask}
+                changeState={handleChangeTask}
               ></TaskList>
             </div>
           )}

@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const useData = (callback) => {
+export function useData(url) {
+  const [data, setData] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [taskError, setTaskError] = useState("");
 
-  const fetching = async () => {
-    try {
-      setisLoading(true);
-      await callback();
-    } catch (e) {
-      setTaskError(e.message);
-    } finally {
-      setisLoading(false);
+  useEffect(() => {
+    async function fetching() {
+      try {
+        setisLoading(true);
+        const responce = await fetch(url);
+        const tasks = await responce.json();
+        setData(tasks);
+      } catch (e) {
+        setTaskError(e.message);
+      } finally {
+        setisLoading(false);
+      }
     }
-  };
+    fetching();
+  }, [url]);
 
-  return [fetching, isLoading, taskError];
-};
+  return [data, isLoading, taskError];
+}
